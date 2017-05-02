@@ -6,36 +6,66 @@
 using System;
 namespace Assets.Script.Base
 {
-    public class TSingleton<T> : BaseCommpoent  where T : IDisposable, new()
+    public class TSingleton<T>  where T : class, new()
     {
-        private static T _instance;
-        static TSingleton()
+        private static T s_instance;
+
+        public static T instance
         {
-           _instance = default(T);
+            get
+            {
+                if (s_instance == null)
+                {
+                   CreateInstance();
+                }
+                return s_instance;
+            }
+        }    
+
+        public static void CreateInstance()
+        {
+            if (s_instance == null)
+            {
+               s_instance = Activator.CreateInstance<T>();
+                if (s_instance is TSingleton<T>)
+                {
+                    (s_instance as TSingleton<T>).Init();
+                }
+            }
         }
 
-        public static void Destory()
+        public static void DestroyInstance()
         {
-            if (_instance != null)
+            if (s_instance != null)
             {
-               TSingleton<T>._instance.Dispose();
-              _instance = default(T);
+                (s_instance as TSingleton<T>).Dispose();
+                 s_instance = (T)((object)null);
             }
         }
 
         public static T GetInstance()
         {
-            if (_instance == null)
+            if (s_instance == null)
             {
-                T local = default(T);
-               _instance = (local == null) ? Activator.CreateInstance<T>() : default(T);
+               CreateInstance();
             }
-            return _instance;
+            return s_instance;
         }
 
-        public override void Dispose()
+        public static bool HasInstance()
         {
-            base.Dispose();
+            return s_instance != null;
+        }
+
+        public virtual void Init()
+        {
+        }
+
+        public virtual void Update(float deltaTime)
+        { }
+
+        public virtual void Dispose()
+        {
         }
     }
 

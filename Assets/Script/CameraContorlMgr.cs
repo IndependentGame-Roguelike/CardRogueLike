@@ -49,11 +49,6 @@ namespace Assets.Script
 
         #endregion
 
-        public override void BaseUpdate(float time)
-        {
-            base.BaseUpdate(time);
-        }
-
         public void OnTiggerType(object obj, EventArgs e)
         {
             //TiggerTypeParam param = (TiggerTypeParam)obj;

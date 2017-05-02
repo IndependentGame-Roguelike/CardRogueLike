@@ -15,22 +15,33 @@ namespace Assets.Script.Base
 {
     public class BaseMonoBehaviour : MonoBehaviour
     {
+        // cache gameobject 
+        public GameObject CacheObj
+        {
+            get;
+            private set;
+        }
+
+        // cache transform 
+        public Transform CacheTrans
+        {
+            get;
+            private set;
+        }
 
         public virtual void Awake()
         {
+            CacheObj = gameObject;
+            CacheTrans = transform;
             Init();
         }
 
         public virtual void Update()
         {
-            BaseUpdate(Time.deltaTime);
         }
-
-        public virtual void BaseUpdate(float time) { }
 
         public virtual void LateUpdate()
         {
-
         }
 
         public virtual void OnDestroy()
@@ -51,7 +62,6 @@ namespace Assets.Script.Base
 
         public virtual void InitData()
         {
-
         }
 
         /// <summary>
