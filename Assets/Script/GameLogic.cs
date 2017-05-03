@@ -30,7 +30,7 @@ namespace Assets.Script
         /// </summary>
         public override void Init()
         {
-            AudioControl.CreateInstance();
+            //AudioControl.CreateInstance();
             GameHelper.CreateInstance();
             ControlManager.CreateInstance();
             EventManager.CreateInstance();
@@ -105,9 +105,9 @@ namespace Assets.Script
         public override void OnDestroy()
         {
             base.OnDestroy();
+            AudioControl.DestroyInstance();
             ControlManager.DestroyInstance();
             GameHelper.DestroyInstance();
-            ControlManager.DestroyInstance();
             EventManager.DestroyInstance();
             Dispose();
         }

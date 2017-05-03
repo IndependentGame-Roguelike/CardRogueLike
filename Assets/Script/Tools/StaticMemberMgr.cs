@@ -21,7 +21,8 @@ namespace Assets.Script.Tools
         public const int MAX_ANGLE = 360;
         public const int MAX_CONTAINER = 4;
         public const int MAX_TRASH = 11;
-
+        public const int CAN_MOVE_LAYER = 9;
+        public const int FORBIDDEN_MOVE_LAYER = 10;
 
     }
 }

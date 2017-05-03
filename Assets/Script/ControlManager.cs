@@ -2,6 +2,7 @@
 using System;
 using Assets.Script.Base;
 using Assets.Script.Tools;
+using Assets.Script.CradManager;
 
 public class ControlManager : TSingleton<ControlManager>, IDisposable
 {
@@ -10,9 +11,11 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
     public bool IsTouch;
     #region private
     private Camera cam;
-    //private BaseTrash mSelectTrash;
-    private int mTrashLayerIndex;
+    private BaseCard mSelectCard;
+    private int mTouchLayerIndex;
     private float mMaxMoveHeight;
+    private RaycastHit2D mHit;
+    private Ray mRay;
     #endregion
 
     public override void Init()
@@ -25,7 +28,7 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
     public override void Dispose()
     {
         base.Dispose();
-        //mSelectTrash = null;
+        mSelectCard = null;
         RemoveListener();
     }
 
@@ -42,7 +45,7 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
     {
         CanControl = true;
         IsTouch = false;
-        mTrashLayerIndex = 8;
+        mTouchLayerIndex = StaticMemberMgr.CAN_MOVE_LAYER;
         mMaxMoveHeight = 1;
     }
 
@@ -73,22 +76,22 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
         }
         if (Input.GetMouseButtonDown(0))
         {
-            //mSelectTrash = HitTrash(PlatformTools.m_TouchPosition);
-            //if (mSelectTrash)
-            //{
-            //    IsTouch = true;
-            //    mSelectTrash.PickUpTrash();
-            //}
+            mSelectCard = HitTrash(PlatformTools.m_TouchPosition);
+            if (mSelectCard)
+            {
+                IsTouch = true;
+                //mSelectTrash.PickUpTrash();
+            }
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            //if (mSelectTrash)
-            //{
-            //    IsTouch = false;
-            //    mSelectTrash.ReleaseTrash();
-            //    mSelectTrash = null;
+            if (mSelectCard)
+            {
+                IsTouch = false;
+                //mSelectTrash.ReleaseTrash();
+                mSelectCard = null;
 
-            //}
+            }
         }
 
         if (Input.GetMouseButton(0))
@@ -106,33 +109,33 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
     private void MouseMove(Vector3 pos)
     {
         Vector3 newPosition = Vector3.zero;
-        //if (mSelectTrash != null)
-        //{
-        //    newPosition = Camera.main.WorldToScreenPoint(mSelectTrash.CacheTrans.position);
-        //    pos.z = newPosition.z;
-        //    newPosition.x = cam.ScreenToWorldPoint(pos).x;
-        //    newPosition.y = Mathf.Min(cam.ScreenToWorldPoint(pos).y, mMaxMoveHeight);
-        //    newPosition.z = mSelectTrash.CacheTrans.position.z;
-        //    if (GameHelper.instance.InTheArea(newPosition) && GameHelper.instance.UnderGround(newPosition, 0) == false)
-        //    {
-        //        mSelectTrash.CacheTrans.position = newPosition;
-        //    }
-        //}
+        if (mSelectCard != null)
+        {
+            newPosition = Camera.main.WorldToScreenPoint(mSelectCard.CacheTrans.position);
+            pos.z = newPosition.z;
+            newPosition = cam.ScreenToWorldPoint(pos);
+            //newPosition.y = Mathf.Min(cam.ScreenToWorldPoint(pos).y, mMaxMoveHeight);
+            //newPosition.z = mSelectCard.CacheTrans.position.z;
+            //if (GameHelper.instance.InTheArea(newPosition) && GameHelper.instance.UnderGround(newPosition, 0) == false)
+            {
+                mSelectCard.CacheTrans.position = newPosition;
+            }
+        }
     }
 
-    //private BaseTrash HitTrash(Vector3 pos)
-    //{
-    //    RaycastHit hit;
-    //    Ray ray = cam.ScreenPointToRay(pos);
-
-    //    if (Physics.Raycast(ray, out hit, 100, 1 << mTrashLayerIndex))
-    //    {
-    //        return hit.transform.GetComponent<BaseTrash>();
-    //    }
-    //    else
-    //    {
-    //        return null;
-    //    }
-    //}
+    private BaseCard HitTrash(Vector3 pos)
+    {
+      
+        mRay = cam.ScreenPointToRay(pos);
+        mHit = Physics2D.Raycast(mRay.origin, mRay.direction, 100, 1 << mTouchLayerIndex);
+        if (mHit)
+        {
+            return mHit.transform.GetComponent<BaseCard>();
+        }
+        else
+        {
+            return null;
+        }
+    }
     #endregion
 }
