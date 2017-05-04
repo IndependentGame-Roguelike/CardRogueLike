@@ -58,7 +58,18 @@ namespace Assets.Script.Tools
 
     public enum ActorTypeEnum
     {
-        Cotainer,
-        Trash,
+        MonsterCard,  //野怪卡
+        WeaponCard,   //武器卡
+        HealCard,     //治疗卡
+        ShieldCard,   //盾牌卡
+        PlayerEquip,  //角色装备栏
+    }
+
+    public enum EquipSpaceTypeEnum
+    {
+        LeftEquip,
+        RightEquip,
+        PlayerPos,
+        Package,
     }
 }

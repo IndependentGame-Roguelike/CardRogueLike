@@ -19,7 +19,7 @@ namespace Assets.Script.Base
         {
             get
             {
-                return ActorTypeEnum.Cotainer;
+                return 0;
             }
         }
 

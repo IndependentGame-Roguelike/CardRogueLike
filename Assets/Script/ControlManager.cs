@@ -80,6 +80,7 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
             if (mSelectCard)
             {
                 IsTouch = true;
+                mSelectCard.PressFinger();
                 //mSelectTrash.PickUpTrash();
             }
         }
@@ -88,6 +89,7 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
             if (mSelectCard)
             {
                 IsTouch = false;
+                mSelectCard.ReleaseFinger();
                 //mSelectTrash.ReleaseTrash();
                 mSelectCard = null;
 
