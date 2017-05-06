@@ -67,6 +67,7 @@ namespace Assets.Script.Tools
 
     public enum EquipSpaceTypeEnum
     {
+        None,
         LeftEquip,
         RightEquip,
         PlayerPos,

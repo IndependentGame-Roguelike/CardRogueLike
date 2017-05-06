@@ -14,8 +14,16 @@ namespace Assets.Script.Base
     {
         [HideInInspector]
         public BaseCreator mCreator;
-
+        public int ObjId = 0;
         public virtual ActorTypeEnum mActorType
+        {
+            get
+            {
+                return 0;
+            }
+        }
+
+        public virtual EquipSpaceTypeEnum EquipSpaceType
         {
             get
             {
@@ -29,7 +37,7 @@ namespace Assets.Script.Base
             Dispose();
         }
 
-        public virtual void SetBaseCreator(BaseCreator creator) 
+        public virtual void SetBaseCreator(BaseCreator creator)
         {
             mCreator = creator;
         }

@@ -89,7 +89,7 @@ public class ControlManager : TSingleton<ControlManager>, IDisposable
             if (mSelectCard)
             {
                 IsTouch = false;
-                mSelectCard.ReleaseFinger();
+                mSelectCard.ReleaseFinger(mSelectCard.ObjId);
                 //mSelectTrash.ReleaseTrash();
                 mSelectCard = null;
 
