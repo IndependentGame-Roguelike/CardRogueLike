@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace Assets.Script.CradManager
 {
-    public class MonsterCard : BaseCard
+    public class HealBloodCard : BaseCard
     {
         public override ActorTypeEnum mActorType
         {
             get
             {
-                return ActorTypeEnum.MonsterCard;
+                return ActorTypeEnum.HealCard;
             }
         }
 
@@ -40,10 +40,6 @@ namespace Assets.Script.CradManager
             {
                 return;
             }
-            if (TargetCard.mActorType == ActorTypeEnum.WeaponCard)
-            {
-                IsDeath = CardValue.SetCurrentHpValue(TargetCard.CardValue);
-            }
         }
 
         /// <summary>
@@ -58,21 +54,13 @@ namespace Assets.Script.CradManager
             {
                 return false;
             }
-            if (TargetCreator.EquipSpaceType == EquipSpaceTypeEnum.None ||
-                TargetCreator.EquipSpaceType == EquipSpaceTypeEnum.Package
-                )
-            {
-                return false;
-            }
 
-            if (TargetCreator.mActorType == ActorTypeEnum.ShieldCard ||
-               TargetCreator.mActorType == ActorTypeEnum.PlayerEquip)
+            if (TargetCreator.EquipSpaceType != EquipSpaceTypeEnum.None)
             {
                 TargetCreator.SetBaseCreator(this);
                 TargetCreator.LogicCollision(this, colliderstate);
                 return true;
             }
-
             return false;
         }
     }

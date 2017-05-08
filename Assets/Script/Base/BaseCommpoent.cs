@@ -13,7 +13,7 @@ namespace Assets.Script.Base
 {
     public class BaseCommpoent
     {
-        public BaseMonoBehaviour mMonoCreator;
+        public BaseCreator mMonoCreator;
         public virtual void Init()
         {
             InitComponent();
@@ -37,9 +37,9 @@ namespace Assets.Script.Base
         {
         }
 
-        public virtual void SetMonoCreator(BaseMonoBehaviour mBaseMonoBehaviour)
+        public virtual void SetMonoCreator(BaseCreator mBaseCreator)
         {
-            mMonoCreator = mBaseMonoBehaviour;
+            mMonoCreator = mBaseCreator;
         }
 
         /// <summary>

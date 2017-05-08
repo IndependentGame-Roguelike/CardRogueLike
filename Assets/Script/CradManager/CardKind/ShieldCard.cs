@@ -8,13 +8,13 @@ using UnityEngine;
 
 namespace Assets.Script.CradManager
 {
-    public class MonsterCard : BaseCard
+    public class ShieldCard : BaseCard
     {
         public override ActorTypeEnum mActorType
         {
             get
             {
-                return ActorTypeEnum.MonsterCard;
+                return ActorTypeEnum.ShieldCard;
             }
         }
 
@@ -40,7 +40,7 @@ namespace Assets.Script.CradManager
             {
                 return;
             }
-            if (TargetCard.mActorType == ActorTypeEnum.WeaponCard)
+            if (TargetCard.mActorType == ActorTypeEnum.MonsterCard)
             {
                 IsDeath = CardValue.SetCurrentHpValue(TargetCard.CardValue);
             }
@@ -58,21 +58,13 @@ namespace Assets.Script.CradManager
             {
                 return false;
             }
-            if (TargetCreator.EquipSpaceType == EquipSpaceTypeEnum.None ||
-                TargetCreator.EquipSpaceType == EquipSpaceTypeEnum.Package
-                )
-            {
-                return false;
-            }
 
-            if (TargetCreator.mActorType == ActorTypeEnum.ShieldCard ||
-               TargetCreator.mActorType == ActorTypeEnum.PlayerEquip)
+            if (TargetCreator.EquipSpaceType != EquipSpaceTypeEnum.None || TargetCreator.mActorType == ActorTypeEnum.MonsterCard)
             {
                 TargetCreator.SetBaseCreator(this);
                 TargetCreator.LogicCollision(this, colliderstate);
                 return true;
             }
-
             return false;
         }
     }

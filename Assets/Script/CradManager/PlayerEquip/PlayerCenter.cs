@@ -14,6 +14,15 @@ namespace Assets.Script.CradManager
             }
         }
 
+        private ValueComponent playerValue;
+
+        public override void InitComponent()
+        {
+            base.InitComponent();
+            playerValue = new ValueComponent();
+            playerValue.SetMonoCreator(this);
+        }
+
         public override void LogicCollision(BaseCreator creator, ColliderStateEnum colliderState)
         {
             base.LogicCollision(creator, colliderState);
@@ -28,7 +37,16 @@ namespace Assets.Script.CradManager
             {
                 CanMoveCard = true;
             }
+            if (CanMoveCard == false)
+            {
+                return;
+            }
             MoveCollisionCard();
+            if (Actor.mActorType == ActorTypeEnum.MonsterCard)
+            {
+                playerValue.SetCurrentHpValue(Actor.CardValue);
+            }
+
         }
     }
 }

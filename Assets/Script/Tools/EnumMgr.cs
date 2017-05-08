@@ -62,6 +62,7 @@ namespace Assets.Script.Tools
         WeaponCard,   //武器卡
         HealCard,     //治疗卡
         ShieldCard,   //盾牌卡
+        CoinCard,     //金币
         PlayerEquip,  //角色装备栏
     }
 

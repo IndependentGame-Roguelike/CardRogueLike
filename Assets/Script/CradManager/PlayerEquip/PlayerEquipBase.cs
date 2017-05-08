@@ -57,6 +57,10 @@ namespace Assets.Script.CradManager
         {
             Actor = creator as BaseCard;
             CanMoveCard = true;
+            if (Actor.mActorType == ActorTypeEnum.CoinCard)
+            {
+                Debug.Log("加金币");
+            }
         }
 
         public override void PlayGameSound(SoundEnum soundType)
