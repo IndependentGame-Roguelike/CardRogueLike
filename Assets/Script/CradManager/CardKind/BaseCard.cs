@@ -85,6 +85,17 @@ namespace Assets.Script.CradManager
             base.InitComponent();
         }
 
+        public override void InitListener()
+        {
+            base.InitListener();
+            EventManager.instance.AddListener<BaseCard>(EventDefine.HpValueChange, HpValueChange);
+        }
+
+        public override void RemoveListener()
+        {
+            base.RemoveListener();
+            EventManager.instance.RemoveListener<BaseCard>(EventDefine.HpValueChange, HpValueChange);
+        }
         public override void Update()
         {
             base.Update();
@@ -192,6 +203,20 @@ namespace Assets.Script.CradManager
             return true;
         }
 
+        /// <summary>
+        /// 血量变化
+        /// </summary>
+        /// <param name="changeCard"></param>
+        /// <param name="e"></param>
+        private void HpValueChange(ref BaseCard changeCard)
+        {
+            if (changeCard.ObjId == ObjId)
+            {
+                //销毁
+                Destroy(this);
+            }
+
+        }
 
     }
 }

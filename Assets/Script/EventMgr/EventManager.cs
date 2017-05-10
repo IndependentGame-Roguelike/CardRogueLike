@@ -4,61 +4,109 @@ using System;
 using Assets.Script.Base;
 using UnityEngine.Events;
 using System.Collections.Generic;
+using Assets.Script.EventMgr;
 
 public enum EventDefine
 {
-    TiggerType,      //触发开关
-    ChangeScene,     //切换场景
+   HpValueChange, //血量变化
+    EventMax,
 }
 
 
 public class EventManager : TSingleton<EventManager>, IDisposable
 {
-    private Dictionary<EventDefine, UnityAction<object, EventArgs>> mEventDic = new Dictionary<EventDefine, UnityAction<object, EventArgs>>();
+    private Delegate[] mEventArr;
 
     public EventManager()
     {
-        if (mEventDic == null)
+        mEventArr = new Delegate[(int)EventDefine.EventMax];
+    }
+
+    public void AddListener(EventDefine eventID, TDelegate eventHadle)
+    {
+        int index = (int)eventID;
+        if (CheckValid(eventID, eventHadle))
         {
-            mEventDic = new Dictionary<EventDefine, UnityAction<object, EventArgs>>();
-            mEventDic.Clear();
+            mEventArr[index] = Delegate.Combine((TDelegate)mEventArr[index], eventHadle);
         }
     }
 
-    public void AddListener(EventDefine eventID, UnityAction<object, EventArgs> eventHadle)
+    public void RemoveListener(EventDefine eventID, TDelegate eventHadle)
     {
-        if (!mEventDic.ContainsKey(eventID))
+        int index = (int)eventID;
+        if (CheckValid(eventID, eventHadle))
         {
-            mEventDic.Add(eventID, eventHadle);
-        }
-        else
-        {
-            mEventDic[eventID] += eventHadle;
+            mEventArr[index] = Delegate.Remove((TDelegate)mEventArr[index], eventHadle);
         }
     }
 
-    public void RemoveListener(EventDefine eventID, UnityAction<object, EventArgs> eventHadle)
+    public void RasieEvent(EventDefine eventID)
     {
-        if (mEventDic.ContainsKey(eventID))
+        int index = (int)eventID;
+        if (index > mEventArr.Length)
         {
-            mEventDic[eventID] -= eventHadle;
+            DebugHelper.DebugLogError("EventDefine error " + eventID);
+            return;
+        }
+
+        TDelegate tDelegate = mEventArr[index] as TDelegate;
+        if (tDelegate !=null)
+        {
+            tDelegate.Invoke();
         }
     }
 
 
-    public void RasieEvent(EventDefine eventID, object obj, EventArgs e)
+    public void AddListener<TParam>(EventDefine eventID, TDelegate<TParam> eventHadle)
     {
-        if (mEventDic.ContainsKey(eventID))
+        int index = (int)eventID;
+        if (CheckValid(eventID, eventHadle))
         {
-            mEventDic[eventID].Invoke(obj, e);
+            mEventArr[index] = Delegate.Combine((TDelegate<TParam>)mEventArr[index], eventHadle);
+        }
+    }
+
+    public void RemoveListener<TParam>(EventDefine eventID, TDelegate<TParam> eventHadle)
+    {
+        int index = (int)eventID;
+        if (CheckValid(eventID, eventHadle))
+        {
+            mEventArr[index] = Delegate.Remove((TDelegate<TParam>)mEventArr[index], eventHadle);
+        }
+    }
+
+    public void RasieEvent<TParam>(EventDefine eventID, ref TParam _param)
+    {
+        int index = (int)eventID;
+        if (index > mEventArr.Length)
+        {
+            DebugHelper.DebugLogError("EventDefine error " + eventID);
+            return;
+        }
+
+        TDelegate<TParam> tDelegate = mEventArr[index] as TDelegate<TParam>;
+        if (tDelegate != null)
+        {
+            tDelegate.Invoke(ref _param);
         }
     }
 
     public void RemoveAllListener()
     {
-        if (mEventDic != null)
+        if (mEventArr != null)
         {
-            mEventDic.Clear();
+            for (int i = 0; i < mEventArr.Length; i++)
+            {
+                Delegate delegator = mEventArr[i];
+                if (delegator != null)
+                {
+                    Delegate[] funcs = delegator.GetInvocationList();
+                    for (int jj = 0; jj < funcs.Length; ++jj)
+                    {
+                        delegator = Delegate.Remove(delegator, funcs[jj]);
+                    }
+                }
+            }
         }
     }
 
@@ -66,9 +114,12 @@ public class EventManager : TSingleton<EventManager>, IDisposable
     {
         base.Dispose();
         RemoveAllListener();
-        mEventDic = null;
+        mEventArr = null;
     }
 
-
-
+    private bool CheckValid(EventDefine evt, Delegate handler)
+    {
+        Delegate mDelegate = mEventArr[(int)evt];
+        return mDelegate == null || mDelegate.GetType() == handler.GetType();
+    }
 }

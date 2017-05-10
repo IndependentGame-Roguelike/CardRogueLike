@@ -23,7 +23,7 @@ namespace Assets.Script.EventMgr
             TiggerTypeParam param = default(TiggerTypeParam);
             param.mType = mType;
             param.obj = obj;
-            EventManager.GetInstance().RasieEvent(EventDefine.TiggerType, param, null);
+            //EventManager.GetInstance().RasieEvent(EventDefine.TiggerType, param, null);
         }
 
         public override void Dispose()
@@ -33,7 +33,7 @@ namespace Assets.Script.EventMgr
     }
 
     public delegate void TDelegate();
-    public delegate void TDelegate<T>(T t);
+    public delegate void TDelegate<T>(ref T t);
     public delegate void TDelegate<T0,T1>(T0 t0,T1 t1);
     public delegate void TDelegate<T0, T1, T2>(T0 t0, T1 t1, T2 t2);
 }

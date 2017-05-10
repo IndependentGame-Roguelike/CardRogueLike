@@ -19,6 +19,7 @@ namespace Assets.Script.CradManager
             {
                 if (m_HpValue != value)
                 {
+                    EventManager.instance.RasieEvent<BaseCreator>(EventDefine.HpValueChange,ref mMonoCreator);
                     m_HpValue = value;
                 }
             }
