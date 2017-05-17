@@ -69,4 +69,12 @@
         PlayerPos,
         Package,
     }
+
+    public enum PokerTypeEnum
+    {
+        Heart,   //红桃
+        Spade,   //黑桃
+        Diamond, //方块
+        Club,    //梅花
+    }
 }
