@@ -1,8 +1,4 @@
 ﻿using Assets.Script.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Assets.Script.Tools;
 using UnityEngine;
 
@@ -17,13 +13,7 @@ namespace Assets.Script.CradManager
                 return 0;
             }
         }
-        //装备在玩家身上后的属性枚举
-        public EquipSpaceTypeEnum EquipSpaceType
-        {
-            get;
-            protected set;
-        }
-
+     
         public Transform m_ParentTrans
         {
             get;
@@ -198,7 +188,6 @@ namespace Assets.Script.CradManager
             if (TargetCreator.mActorType == mActorType)
             {
                 return false;
-
             }
             return true;
         }
@@ -215,7 +204,6 @@ namespace Assets.Script.CradManager
                 //销毁
                 Destroy(this);
             }
-
         }
 
     }

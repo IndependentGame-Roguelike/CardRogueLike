@@ -2,9 +2,6 @@
 //功能：
 //创建者: 胡海辉
 //创建时间：
-
-
-using Assets.Script.Base;
 using Assets.Script.Tools;
 using UnityEngine;
 
@@ -23,13 +20,7 @@ namespace Assets.Script.Base
             }
         }
 
-        public virtual EquipSpaceTypeEnum EquipSpaceType
-        {
-            get
-            {
-                return 0;
-            }
-        }
+        public EquipSpaceTypeEnum EquipSpaceType;
 
         public override void OnDestroy()
         {

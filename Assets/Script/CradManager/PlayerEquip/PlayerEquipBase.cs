@@ -1,6 +1,4 @@
-﻿
-using System;
-using Assets.Script.Base;
+﻿using Assets.Script.Base;
 using Assets.Script.Tools;
 using UnityEngine;
 
@@ -21,14 +19,6 @@ namespace Assets.Script.CradManager
         {
             get;
             private set;
-        }
-
-        public override EquipSpaceTypeEnum EquipSpaceType
-        {
-            get
-            {
-                return 0;
-            }
         }
 
         public BoxCollider2D mCollider;

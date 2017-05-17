@@ -6,7 +6,7 @@
 using System;
 namespace Assets.Script.Base
 {
-    public class TSingleton<T>  where T : class, new()
+    public class TSingleton<T>  where T : class, IDisposable
     {
         private static T s_instance;
 

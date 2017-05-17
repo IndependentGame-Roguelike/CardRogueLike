@@ -1,8 +1,5 @@
 ﻿using Assets.Script.EventMgr;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Assets.Script.Timer
 {
@@ -19,11 +16,8 @@ namespace Assets.Script.Timer
             get;
             private set;
         }
-        public int m_sequenceTime
-        {
-            get;
-            private set;
-        }
+        public int m_sequenceTime;
+    
         public bool isFinish = false;
         private bool running = false;
         private int intervalTime = 0;
@@ -86,7 +80,7 @@ namespace Assets.Script.Timer
         public void Finish()
         {
             if (null == CTimerEvent) return;
-            CTimerEvent(m_sequenceTime);
+            CTimerEvent(ref m_sequenceTime);
         }
 
         public void SetRunState(bool state)

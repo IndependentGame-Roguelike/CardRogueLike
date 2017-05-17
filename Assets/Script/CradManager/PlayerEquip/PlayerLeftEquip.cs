@@ -6,14 +6,6 @@ namespace Assets.Script.CradManager
 {
     public class PlayerLeftEquip : PlayerEquipBase
     {
-        public override EquipSpaceTypeEnum EquipSpaceType
-        {
-            get
-            {
-                return EquipSpaceTypeEnum.LeftEquip;
-            }
-        }
-
         public override void InitComponent()
         {
             base.InitComponent();
@@ -21,6 +13,7 @@ namespace Assets.Script.CradManager
 
         public override void InitData()
         {
+            EquipSpaceType = EquipSpaceTypeEnum.LeftEquip;
             base.InitData();
         }
 
@@ -37,7 +30,5 @@ namespace Assets.Script.CradManager
             }
             MoveCollisionCard();
         }
-
-
     }
 }

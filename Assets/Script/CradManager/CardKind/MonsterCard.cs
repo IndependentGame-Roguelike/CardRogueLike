@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Assets.Script.Base;
+﻿using Assets.Script.Base;
 using Assets.Script.Tools;
 using UnityEngine;
 

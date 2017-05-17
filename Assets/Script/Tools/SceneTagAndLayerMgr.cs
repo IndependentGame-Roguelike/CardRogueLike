@@ -1,13 +1,8 @@
-﻿
-//功能： 场景里标签和层级管理
+﻿//功能： 场景里标签和层级管理
 //创建者: 胡海辉
 //创建时间：
 
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 
 public struct SceneTagAndLayerMgr

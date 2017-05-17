@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Assets.Script.Tools
+﻿namespace Assets.Script.Tools
 {
     public class StaticMemberMgr
     {
@@ -17,7 +12,7 @@ namespace Assets.Script.Tools
 
         public const string SOUND_RESOURCE_PATH = "Sounds/{0}/{1}";
 
-
+        public const int MAX_CARD_COUNT = 54;
         public const int MAX_ANGLE = 360;
         public const int MAX_CONTAINER = 4;
         public const int MAX_TRASH = 11;

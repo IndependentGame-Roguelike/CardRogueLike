@@ -3,8 +3,6 @@
 //创建者: 胡海辉
 //创建时间：
 using UnityEngine;
-using System.Collections;
-using Assets.Script.Tools;
 using Assets.Script.EventMgr;
 using System;
 using System.Collections.Generic;
@@ -66,7 +64,7 @@ public class TiggerTipsMgr : MonoBehaviour
     /// </summary>
     private void InitListener()
     {
-        EventManager.GetInstance().AddListener(EventDefine.TiggerType, TiggerChangeType);
+        //EventManager.GetInstance().AddListener(EventDefine.TiggerType, TiggerChangeType);
     }
 
     /// <summary>
@@ -74,12 +72,12 @@ public class TiggerTipsMgr : MonoBehaviour
     /// </summary>
     private void RemoveListener()
     {
-        EventManager.GetInstance().RemoveListener(EventDefine.TiggerType, TiggerChangeType);
+        //EventManager.GetInstance().RemoveListener(EventDefine.TiggerType, TiggerChangeType);
     }
 
     private void TiggerChangeType(object obj, EventArgs e)
     {
-        TiggerTypeParam param = (TiggerTypeParam)obj;
+        //TiggerTypeParam param = (TiggerTypeParam)obj;
     }
 
     /// <summary>

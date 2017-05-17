@@ -1,14 +1,10 @@
-﻿using UnityEngine;
-using System.Collections;
-using System;
+﻿using System;
 using Assets.Script.Base;
-using UnityEngine.Events;
-using System.Collections.Generic;
 using Assets.Script.EventMgr;
 
 public enum EventDefine
 {
-   HpValueChange, //血量变化
+    HpValueChange, //血量变化
     EventMax,
 }
 

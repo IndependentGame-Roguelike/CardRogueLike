@@ -6,13 +6,6 @@ namespace Assets.Script.CradManager
 {
     public class PlayerCenter : PlayerEquipBase
     {
-        public override EquipSpaceTypeEnum EquipSpaceType
-        {
-            get
-            {
-                return EquipSpaceTypeEnum.PlayerPos;
-            }
-        }
 
         private ValueComponent playerValue;
 
@@ -21,6 +14,12 @@ namespace Assets.Script.CradManager
             base.InitComponent();
             playerValue = new ValueComponent();
             playerValue.SetMonoCreator(this);
+        }
+
+        public override void InitData()
+        {
+            EquipSpaceType = EquipSpaceTypeEnum.PlayerPos;
+            base.InitData();
         }
 
         public override void LogicCollision(BaseCreator creator, ColliderStateEnum colliderState)

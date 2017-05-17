@@ -5,7 +5,6 @@
 
 
 using Assets.Script.Base;
-using Assets.Script.EventMgr;
 using System;
 using System.Collections;
 using System.Collections.Generic;
