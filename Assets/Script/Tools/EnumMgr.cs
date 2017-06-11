@@ -77,4 +77,14 @@
         Diamond, //方块
         Club,    //梅花
     }
+
+    /// <summary>
+    /// 配置表名
+    /// </summary>
+
+    public enum XmlName
+    {
+        CardData,  //卡牌属性
+     //   AudioData,
+    }
 }

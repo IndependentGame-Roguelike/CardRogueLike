@@ -7,6 +7,7 @@
 using Assets.Script.Base;
 using System;
 using System.Collections.Generic;
+using Assets.Script.Tools;
 using UnityEngine;
 
 namespace Assets.Script.AudioMgr
@@ -45,7 +46,7 @@ namespace Assets.Script.AudioMgr
             audioBGMVolume = mAudioSourceArr[0].volume;
             audioVolume = mAudioSourceArr[1].volume;
             tempVolume = audioVolume;
-            LoadAudioDataByXml();
+            //LoadAudioDataByXml();
         }
 
         public override void Dispose()
@@ -357,37 +358,37 @@ namespace Assets.Script.AudioMgr
         /// <summary>
         /// 读取配置表音频数据
         /// </summary>
-        private void LoadAudioDataByXml()
-        {
+        //private void LoadAudioDataByXml()
+        //{
 
-            AudioData mAudioData = new AudioData();
-            string path = ReadXmlDataMgr.GetInstance().GetXmlPath(ReadXmlDataMgr.XmlName.AudioData);
-            ReadXmlMgr<AudioData>.SetXmlPath(path);
-            int i = 1;
-            string XNodeName = ReadXmlDataMgr.XmlName.AudioData + "" + i;
-            Debug.Log(XNodeName);
-            mAudioData = ReadXmlMgr<AudioData>.ReadXmlElement(XNodeName);
-            mAudioDataList.Add(mAudioData);
-            while (mAudioData != null)
-            {
-                i++;
-                XNodeName = ReadXmlDataMgr.XmlName.AudioData + "" + i;
-                mAudioData = ReadXmlMgr<AudioData>.ReadXmlElement(XNodeName);
-                if (mAudioData != null)
-                {
-                    mAudioDataList.Add(mAudioData);
-                }
-            }
+        //    AudioData mAudioData = new AudioData();
+        //    string path = ReadXmlDataMgr.GetInstance().GetXmlPath(XmlName.AudioData);
+        //    ReadXmlMgr<AudioData>.SetXmlPath(path);
+        //    int i = 1;
+        //    string XNodeName =XmlName.AudioData + "" + i;
+        //    Debug.Log(XNodeName);
+        //    mAudioData = ReadXmlMgr<AudioData>.ReadXmlElement(XNodeName);
+        //    mAudioDataList.Add(mAudioData);
+        //    while (mAudioData != null)
+        //    {
+        //        i++;
+        //        XNodeName = XmlName.AudioData + "" + i;
+        //        mAudioData = ReadXmlMgr<AudioData>.ReadXmlElement(XNodeName);
+        //        if (mAudioData != null)
+        //        {
+        //            mAudioDataList.Add(mAudioData);
+        //        }
+        //    }
 
 
-            //Debug.Log(" mAudioDataList==  " + mAudioDataList.Count);
-            //for (int j = 0; j < mAudioDataList.Count; j++)
-            //{
-            //    Debug.Log("mAudioDataList[i].ID==" + mAudioDataList[j].ID);
-            //    Debug.Log("mAudioDataList[i].Name==" + mAudioDataList[j].Name);
-            //    Debug.Log("mAudioDataList[i].AudioName==" + mAudioDataList[j].AudioName);
-            //}
-        }
+        //    //Debug.Log(" mAudioDataList==  " + mAudioDataList.Count);
+        //    //for (int j = 0; j < mAudioDataList.Count; j++)
+        //    //{
+        //    //    Debug.Log("mAudioDataList[i].ID==" + mAudioDataList[j].ID);
+        //    //    Debug.Log("mAudioDataList[i].Name==" + mAudioDataList[j].Name);
+        //    //    Debug.Log("mAudioDataList[i].AudioName==" + mAudioDataList[j].AudioName);
+        //    //}
+        //}
 
 
 

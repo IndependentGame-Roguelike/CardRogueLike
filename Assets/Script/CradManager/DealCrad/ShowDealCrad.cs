@@ -12,7 +12,7 @@ namespace Assets.Script.CradManager
         private const int MAX_SHOW_CARD_COUNT = 4;
         private const int MIN_show_CARD_COUNT = 1;
         private BaseCard tempBaseCard;
-        private Queue<CradInfo> AllCardQueue;
+        private Queue<CardData> AllCardQueue;
         public override void InitData()
         {
             base.InitData();
@@ -38,9 +38,9 @@ namespace Assets.Script.CradManager
             }
         }
 
-        private BaseCard GetBaseCardInfo(CradInfo mCradInfo)
+        private BaseCard GetBaseCardInfo(CardData mCardData)
         {
-            if (mCradInfo == null)
+            if (mCardData == null)
             {
                 return null;
             }

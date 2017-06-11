@@ -5,10 +5,12 @@
 
 
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using System.IO;
 using Assets.Script.Base;
+using Assets.Script.Tools;
 
 namespace Assets.Script
 {
@@ -20,44 +22,58 @@ namespace Assets.Script
         }
     }
 
-    public class ReadXmlNewMgr : TSingleton<ReadXmlNewMgr>,IDisposable
+    public class ReadXmlNewMgr : TSingleton<ReadXmlNewMgr>, IDisposable
     {
-
+        public Dictionary<int, List<XmlData>> GameXmlDataDic;
         public override void Init()
         {
             base.Init();
-            int maxEnum = Enum.GetNames(typeof(ReadXmlDataMgr.XmlName)).Length; //(int)ReadXmlDataMgr.XmlName.Max;
+            GameXmlDataDic = new Dictionary<int, List<XmlData>>();
+            int maxEnum = Enum.GetNames(typeof(XmlName)).Length; //(int)ReadXmlDataMgr.XmlName.Max;
             for (int i = 0; i < maxEnum; i++)
             {
-                LoadCofig((ReadXmlDataMgr.XmlName)i);
+                if (GameXmlDataDic.ContainsKey(i))
+                {
+                    GameXmlDataDic[i] = LoadCofig((XmlName) i);
+                }
+                else
+                {
+                    GameXmlDataDic.Add(i, LoadCofig((XmlName) i));
+                }
             }
         }
 
-        private void LoadCofig(ReadXmlDataMgr.XmlName name)
+        private List<XmlData> LoadCofig(XmlName name)
         {
-            XmlData data = ReadXmlDataMgr.GetInstance().GetXmlData(name);
+            List<XmlData> tempList=new List<XmlData>();
             XmlNode node = LoadXmlFile(name);
             if (node == null)
             {
                 DebugHelper.DebugLog("node====null");
-                return;
+                return null;
             }
+
+            //XmlData data = ReadXmlDataMgr.GetInstance().GetXmlData(name);
             XmlNodeList childrenNodeList = node.ChildNodes;
-            for (int i = 0; i < childrenNodeList.Count; i++)
+            for (int ii = 0; ii < childrenNodeList.Count; ii++)
             {
-                data.GetXmlDataAttribute(childrenNodeList[i]);
+                XmlData data = ReadXmlDataMgr.GetInstance().GetXmlData(name);
+                data.GetXmlDataAttribute(childrenNodeList[ii]);
+                tempList.Add(data);
             }
+            return tempList;
         }
 
         public override void Dispose()
         {
             base.Dispose();
+            GameXmlDataDic.Clear();
         }
 
 
-        public MemoryStream LoadFile(ReadXmlDataMgr.XmlName name)
+        public MemoryStream LoadFile(XmlName name)
         {
-            string mPath = ReadXmlDataMgr.GetInstance().GetXmlPath(name);
+            string mPath = ReadXmlDataMgr.instance.GetXmlPath(name);
             StreamReader reader = new StreamReader(mPath);
             UTF8Encoding encode = new System.Text.UTF8Encoding();
             byte[] binary = encode.GetBytes(reader.ReadToEnd());
@@ -79,7 +95,7 @@ namespace Assets.Script
             return xmlDoc.GetElementsByTagName("ReNodes");
         }
 
-        public XmlNode LoadXmlFile(ReadXmlDataMgr.XmlName name)
+        public XmlNode LoadXmlFile(XmlName name)
         {
             MemoryStream stream = LoadFile(name);
             XmlNodeList nodeList = GetXmlNodeList(GetXmlDocByMemory(stream));

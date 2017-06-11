@@ -7,11 +7,11 @@ namespace Assets.Script.CradManager
 {
     public class DealCardMgr : TSingleton<DealCardMgr>, IDisposable
     {
-        public Queue<CradInfo> AllCardQueue;
+        public Queue<CardData> AllCardQueue;
         public override void Init()
         {
             base.Init();
-            AllCardQueue = new Queue<CradInfo>(StaticMemberMgr.MAX_CARD_COUNT);
+            AllCardQueue = new Queue<CardData>(StaticMemberMgr.MAX_CARD_COUNT);
         }
 
         public void InitData()

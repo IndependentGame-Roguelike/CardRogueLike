@@ -14,33 +14,20 @@ namespace Assets.Script
 {
     public class ReadXmlDataMgr : TSingleton<ReadXmlDataMgr>, IDisposable
     {
-        /// <summary>
-        /// 配置表名
-        /// </summary>
 
-        public enum XmlName
+        public XmlData GetXmlData(XmlName name)
         {
-            EnemyAI,
-            PlayerData,
-            AudioData,
-            Max,
-        }
-
-        public XmlData GetXmlData(XmlName name) 
-        {
-            switch (name) 
+            switch (name)
             {
-                case XmlName.AudioData: return new AudioData();
-                case XmlName.PlayerData: return new PlayerData();
+              //  case XmlName.AudioData: return new AudioData();
+                case XmlName.CardData: return new CardData();
                 default: return new XmlData();
             }
         }
 
         public string GetXmlPath(XmlName name)
         {
-            string path;
-            path = PlatformTools.m_FileRealPath + "/Config/" + name + ".xml";
-            return path;
+            return PlatformTools.m_FileRealPath + "/Config/" + name + ".xml";
         }
 
         public override void Dispose()
@@ -48,63 +35,64 @@ namespace Assets.Script
             base.Dispose();
         }
 
-        public int IntParse(XmlNode node, string name)
+        public int IntParse(XmlNode node, string name, int index)
         {
-            return (int)Parse(node, name, 0);
+            return (int)Parse(node, name, 0, index);
         }
 
-        public string StrParse(XmlNode node, string name)
+        public bool BoolParse(XmlNode node, string name, int index)
         {
-            return (string)Parse(node, name, "");
+            return (bool)Parse(node, name, true, index);
         }
 
-        public float FloatParse(XmlNode node, string name)
+        public string StrParse(XmlNode node, string name, int index)
         {
-            return (float)Parse(node, name, 0.0f);
+            return (string)Parse(node, name, "", index);
         }
 
-        public object Parse(XmlNode node, string name, object defaultValue)
+        public float FloatParse(XmlNode node, string name, int index)
         {
-            return Convert.ChangeType(node.Attributes[name].Value, defaultValue.GetType());
+            return (float)Parse(node, name, 0.0f, index);
+        }
+
+        public object Parse(XmlNode node, string name, object defaultValue, int index)
+        {
+            string value = "";
+            try
+            {
+                value = node.ChildNodes[index].InnerText;
+            }
+            catch (System.Exception ex)
+            {
+                DebugHelper.DebugLogError(ex.Message);
+            }
+            return Convert.ChangeType(value, defaultValue.GetType());
         }
     }
 
     /// <summary>
-    /// 敌人AI
+    /// 卡牌基本数据
     /// </summary>
     [Serializable]
-    public class EnemyAIData
+    public class CardData : XmlData
     {
-        public int ID;
-        public Vector3 startPos;
-        public Vector3 endPos;
-        public float moveSpeed = 3;
-        public float stayTime = 2;
-        public float aroundTime = 1;
-        public float attackSpeed = 1;
-        public float followSpeed = 4;
-        public float runSpeed = 5;
-        public float viewRange = 6;
-        public float attackRange = 2;
-        public float feelRange = 3;
-        public bool isForceAttack = true;
-        public float colliderRange = 1;
-    }
+        public string CradName;
+        public bool IsShow;
+        public int ConfigId;
+        public int HpValue;
+        public ActorTypeEnum ActorType;
+        public PokerTypeEnum PokerType;
+        public string SpritePath;
 
-    /// <summary>
-    /// 玩家基本数据
-    /// </summary>
-    [Serializable]
-    public class PlayerData : XmlData
-    {
-        public float moveSpeed = 0.08f;
-        public float runSpeed = 0.08f;
-        public float colliderRange = 0.5f;
         public override bool GetXmlDataAttribute(XmlNode node)
         {
-            moveSpeed = ReadXmlDataMgr.GetInstance().IntParse(node, "moveSpeed");
-            runSpeed = ReadXmlDataMgr.GetInstance().FloatParse(node, "runSpeed");
-            colliderRange = ReadXmlDataMgr.GetInstance().FloatParse(node, "colliderRange");
+            CradName = ReadXmlDataMgr.instance.StrParse(node, "CradName", 0);
+            IsShow = ReadXmlDataMgr.instance.BoolParse(node, "IsShow", 1);
+            ConfigId = ReadXmlDataMgr.instance.IntParse(node, "ConfigId", 2);
+            HpValue = ReadXmlDataMgr.instance.IntParse(node, "HpValue", 3);
+            ActorType = (ActorTypeEnum)Enum.Parse(typeof(ActorTypeEnum),ReadXmlDataMgr.instance.StrParse(node, "ActorType", 4));
+            PokerType = (PokerTypeEnum)Enum.Parse(typeof(PokerTypeEnum), ReadXmlDataMgr.instance.StrParse(node, "PokerType", 5));
+            SpritePath = ReadXmlDataMgr.instance.StrParse(node, "SpritePath", 6);
             return base.GetXmlDataAttribute(node);
         }
     }
@@ -121,9 +109,9 @@ namespace Assets.Script
 
         public override bool GetXmlDataAttribute(XmlNode node)
         {
-            ID = ReadXmlDataMgr.GetInstance().IntParse(node, "ID");
-            Name = ReadXmlDataMgr.GetInstance().StrParse(node, "Name");
-            AudioName = ReadXmlDataMgr.GetInstance().StrParse(node, "AudioName");
+            ID = ReadXmlDataMgr.instance.IntParse(node, "ID", 0);
+            Name = ReadXmlDataMgr.instance.StrParse(node, "Name", 0);
+            AudioName = ReadXmlDataMgr.instance.StrParse(node, "AudioName", 0);
             return base.GetXmlDataAttribute(node);
         }
 
