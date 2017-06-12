@@ -2,6 +2,7 @@
 using Assets.Script.Base;
 using Assets.Script.Tools;
 using System;
+using System.Diagnostics;
 
 namespace Assets.Script.CradManager
 {
@@ -17,6 +18,19 @@ namespace Assets.Script.CradManager
         public void InitData()
         {
             //读取卡片信息
+            List<XmlData> tempAllCardList = ReadXmlNewMgr.instance.GameXmlDataDic[(int)XmlName.CardData];
+            List<CardData> allCardList = new List<CardData>(tempAllCardList.Count);
+            for (int i = 0; i < tempAllCardList.Count; i++)
+            {
+                allCardList.Add((CardData)tempAllCardList[i]);
+            }
+            while (allCardList.Count > 0)
+            {
+                int index = UnityEngine.Random.Range(0, allCardList.Count);
+                AllCardQueue.Enqueue(allCardList[index]);
+                allCardList.RemoveAt(index);
+            }
+            DebugHelper.DebugLog("AllCardQueue.count==="+ AllCardQueue.Count);
         }
 
         public override void Update(float deltaTime)
