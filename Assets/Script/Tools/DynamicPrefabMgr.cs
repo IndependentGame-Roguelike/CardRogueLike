@@ -13,24 +13,6 @@ namespace Assets.Script
     public class DynamicPrefabMgr : TSingleton<DynamicPrefabMgr>,IDisposable
     {
 
-        public GameObject GetDynamicPrefabObj(string pathStr, bool bActive = false)
-        {
-            Transform DynamicPrefabRoot = GameObject.Find("DynamicPrefab").transform;
-            Transform trans = GetPrefab<Transform>(pathStr, DynamicPrefabRoot);
-            if (trans)
-            {
-                trans.gameObject.SetActive(bActive);
-                return trans.gameObject;
-            }
-            return null;
-        }
-
-        public T GetDynamicPrefab<T>(string pathStr)
-        {
-            Transform DynamicPrefabRoot = GameObject.Find("DynamicPrefab").transform;
-            return GetPrefab<T>(pathStr, DynamicPrefabRoot);
-        }
-
         public T GetPrefab<T>(string pathStr, Transform trans)
         {
             GameObject goPrefab = Resources.Load(pathStr) as GameObject;

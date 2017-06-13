@@ -1,4 +1,6 @@
-﻿namespace Assets.Script.Tools
+﻿using UnityEngine;
+
+namespace Assets.Script.Tools
 {
     public class StaticMemberMgr
     {
@@ -12,6 +14,8 @@
 
         public const string SOUND_RESOURCE_PATH = "Sounds/{0}/{1}";
 
+        public const string CARD_PREFAB_PATH = "Prefab/{0}/CradPrefab";
+
         public const int MAX_CARD_COUNT = 54;
         public const int MAX_ANGLE = 360;
         public const int MAX_CONTAINER = 4;
@@ -21,5 +25,17 @@
 
         public static int CurrentObjId = 0;
 
+        private static Transform mHideRootTrans;
+        public static Transform HideRootTrans
+        {
+            get
+            {
+                if (mHideRootTrans == null)
+                {
+                    mHideRootTrans =  GameObject.Find("HideGameObject").transform;
+                }
+                return mHideRootTrans;
+            }
+        }
     }
 }

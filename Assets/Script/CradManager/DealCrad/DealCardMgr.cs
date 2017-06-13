@@ -27,7 +27,10 @@ namespace Assets.Script.CradManager
             while (allCardList.Count > 0)
             {
                 int index = UnityEngine.Random.Range(0, allCardList.Count);
-                AllCardQueue.Enqueue(allCardList[index]);
+                if (allCardList[index].IsShow)
+                {
+                    AllCardQueue.Enqueue(allCardList[index]);
+                }
                 allCardList.RemoveAt(index);
             }
             DebugHelper.DebugLog("AllCardQueue.count==="+ AllCardQueue.Count);

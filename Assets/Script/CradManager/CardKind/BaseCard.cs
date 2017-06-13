@@ -13,7 +13,7 @@ namespace Assets.Script.CradManager
                 return 0;
             }
         }
-     
+
         public Transform m_ParentTrans
         {
             get;
@@ -46,6 +46,18 @@ namespace Assets.Script.CradManager
         public BaseCard TargetCard;
         [HideInInspector]
         public BaseCreator TargetCreator;
+        [HideInInspector]
+        public int ConfigId;
+        /// <summary>
+        /// 花色
+        /// </summary>
+        [HideInInspector]
+        public PokerTypeEnum PokerType;
+        /// <summary>
+        /// Sprite 名字
+        /// </summary>
+        [HideInInspector]
+        public string SpritePathName;
 
         private bool m_IsSelectThisCard;
         private bool m_CanMove;
@@ -54,6 +66,7 @@ namespace Assets.Script.CradManager
         private float m_CanMoveTime;
         private const float c_ExtraMoveTime = 0.2f;
         private bool b_ReleaseFinger;
+        private const string c_Card_Img_Name = "Card_Img", c_Card_Num_Name = "Card_Num";
 
         public override void InitData()
         {
@@ -68,6 +81,7 @@ namespace Assets.Script.CradManager
             CardValue = new ValueComponent();
             CardValue.SetMonoCreator(this);
             ObjId = StaticMemberMgr.CurrentObjId++;
+            InitSprite();
         }
 
         public override void InitComponent()
@@ -79,6 +93,12 @@ namespace Assets.Script.CradManager
         {
             base.InitListener();
             EventManager.instance.AddListener<BaseCard>(EventDefine.HpValueChange, HpValueChange);
+        }
+
+        public void InitSprite()
+        {
+            SetSpriteImg(c_Card_Img_Name, "NPCCard/" + SpritePathName);
+            SetSpriteImg(c_Card_Num_Name, "CardNum/" + CardValue.HpValue);
         }
 
         public override void RemoveListener()
@@ -110,6 +130,7 @@ namespace Assets.Script.CradManager
 
         public override void Dispose()
         {
+            CacheTrans.parent = StaticMemberMgr.HideRootTrans;
             TargetCreator = null;
             TargetCard = null;
             if (CardValue != null)
@@ -206,5 +227,15 @@ namespace Assets.Script.CradManager
             }
         }
 
+        private void SetSpriteImg(string spriteTrasnName, string spriteTextrueName)
+        {
+            Transform trans;
+            Sprite spriteTextrue;
+            Texture2D texture = Resources.Load<Texture2D>("Textures/" + spriteTextrueName);
+            trans = CacheTrans.FindChild(spriteTrasnName);
+            spriteTextrue = Sprite.Create(texture, new Rect(Vector2.zero, new Vector2(texture.width, texture.height)), new Vector2(texture.width * 0.5f, texture.height * 0.5f));
+            SpriteRenderer spRender = trans.GetComponent<SpriteRenderer>();
+            spRender.sprite = spriteTextrue;
+        }
     }
 }

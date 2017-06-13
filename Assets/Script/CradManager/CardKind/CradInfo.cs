@@ -1,15 +1,11 @@
 ﻿using Assets.Script.Tools;
+using UnityEngine;
 
 namespace Assets.Script.CradManager
 {
-    public class CradInfo11
+    public class CradInfo
     {
-        public string cradName;
-        public bool IsShow;
-        public int ConfigId;
-        public int HpValue;
-        public ActorTypeEnum ActorType;
-        public PokerTypeEnum PokerType;
-        public string SpritePath;
+        public BaseCard CardData;
+        public Transform RootTrans;
     }
 }
