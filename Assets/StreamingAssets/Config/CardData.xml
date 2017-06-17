@@ -1,29 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <ReNodes>
   <CardData ID="0">
-    <CradName>红桃</CradName>
-    <IsShow>True</IsShow>
-    <ConfigId>0</ConfigId>
-    <HpValue>1</HpValue>
-    <ActorType>MonsterCard</ActorType>
-    <PokerType>Heart</PokerType>
-    <SpritePath>“333333333333”</SpritePath>
-  </CardData>
-  <CardData ID="1">
-    <CradName>黑桃10</CradName>
+    <CradName>士大夫士大夫</CradName>
     <IsShow>True</IsShow>
     <ConfigId>1</ConfigId>
-    <HpValue>10</HpValue>
+    <HpValue>11</HpValue>
     <ActorType>MonsterCard</ActorType>
     <PokerType>Heart</PokerType>
-    <SpritePath>“ddddddddd”</SpritePath>
+    <SpritePath>
+    </SpritePath>
   </CardData>
-  <CardData ID="2">
-    <CradName>jjj</CradName>
+  <CardData ID="1">
+    <CradName>
+    </CradName>
     <IsShow>True</IsShow>
-    <ConfigId>2</ConfigId>
-    <HpValue>22</HpValue>
+    <ConfigId>1</ConfigId>
+    <HpValue>0</HpValue>
     <ActorType>MonsterCard</ActorType>
     <PokerType>Heart</PokerType>
-    <SpritePath>“23”</SpritePath>
+    <SpritePath>
+    </SpritePath>
   </CardData>
 </ReNodes>

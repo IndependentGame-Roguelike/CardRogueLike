@@ -98,7 +98,7 @@ namespace Assets.Script.CradManager
         public void InitSprite()
         {
             SetSpriteImg(c_Card_Img_Name, "NPCCard/" + SpritePathName);
-            SetSpriteImg(c_Card_Num_Name, "CardNum/" + CardValue.HpValue);
+           // SetSpriteImg(c_Card_Num_Name, "CardNum/" + CardValue.HpValue);
         }
 
         public override void RemoveListener()

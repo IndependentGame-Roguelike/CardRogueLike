@@ -84,6 +84,12 @@ namespace Assets.Script
         public PokerTypeEnum PokerType;
         public string SpritePath;
 
+        public CardData ()
+        {
+            CradName = "";
+            SpritePath = "";
+        }
+
         public override bool GetXmlDataAttribute(XmlNode node)
         {
             CradName = ReadXmlDataMgr.instance.StrParse(node, "CradName", 0);

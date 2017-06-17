@@ -32,25 +32,28 @@ namespace Assets.Editor
             ReadXmlNewMgr.CreateInstance();
             SaveGameDataXmlMgr.CreateInstance();
             CardDataList = SaveGameDataXmlMgr.instance.GetCradDataInfoByXml();
-            count = CardDataList.Count;
         }
 
         //绘制窗口时调用
+
         void OnGUI()
         {
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < CardDataList.Count; i++)
             {
-                tempCardData = CardDataList.Find(info => (info.ConfigId == i));
-                if (tempCardData==null)
+                tempCardData = CardDataList[i];
+                if (tempCardData == null)
                 {
-                    tempCardData =new CardData();
-                    CardDataList.Add(tempCardData);
-                    tempCardData.ConfigId = i;
-                    tempCardData.IsShow = true;
+                    continue;
                 }
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("*****************************************");
+                if (GUILayout.Button("删除Crad", GUILayout.Width(200)))
+                {
+                    i--;
+                    CardDataList.Remove(tempCardData);
+                    continue;
+                }
                 tempCardData.CradName = EditorGUILayout.TextField("卡片名字:", tempCardData.CradName);
                 tempCardData.IsShow = EditorGUILayout.BeginToggleGroup(tempCardData.CradName, tempCardData.IsShow);
                 if (tempCardData.IsShow)
@@ -60,14 +63,17 @@ namespace Assets.Editor
                     tempCardData.PokerType = (PokerTypeEnum)EditorGUILayout.EnumPopup("扑克类型:", tempCardData.PokerType);
                     tempCardData.SpritePath = EditorGUILayout.TextField("卡片sprite名字:", tempCardData.SpritePath);
                 }
-              
+
                 EditorGUILayout.EndToggleGroup();
+
             }
             EditorGUILayout.EndScrollView();
             if (GUILayout.Button("新建Crad", GUILayout.Width(200)))
             {
-                count++;
                 tempCardData = new CardData();
+                CardDataList.Add(tempCardData);
+                tempCardData.ConfigId = CardDataList[CardDataList.Count - 1].ConfigId + 1;
+                tempCardData.IsShow = true;
             }
 
             if (GUILayout.Button("保存", GUILayout.Width(200)))
@@ -145,6 +151,7 @@ namespace Assets.Editor
         void OnDestroy()
         {
             Debug.Log("当窗口关闭时调用");
+            SaveGameDataXmlMgr.instance.CreateCradDataXml(CardDataList);
             ReadXmlNewMgr.DestroyInstance();
             SaveGameDataXmlMgr.DestroyInstance();
         }

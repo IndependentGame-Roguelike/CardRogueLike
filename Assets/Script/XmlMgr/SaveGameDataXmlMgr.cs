@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using System.Xml;
 using Assets.Script.CradManager;
 
@@ -51,7 +52,7 @@ namespace Assets.Script
 
         public void CreateCradDataXml(List<CardData> cardDataList)
         {
-            File.Create(saveFilePath).Close();
+            FileStream newXmlStream = File.Create(saveFilePath);
             XmlDocument xml = new XmlDocument();
             XmlElement root = xml.CreateElement(ROOT_XML_NAME);
             for (int i = 0; i < cardDataList.Count; i++)
@@ -62,7 +63,11 @@ namespace Assets.Script
                 root.AppendChild(element);
             }
             xml.AppendChild(root);
-            xml.Save(saveFilePath);
+            XmlTextWriter xWriter =new XmlTextWriter(newXmlStream, Encoding.UTF8); //设置编码
+            xWriter.Formatting = Formatting.Indented; //自动换行
+            xml.Save(xWriter);
+            newXmlStream.Close();
+            xWriter.Close();
         }
 
         private void FindClassAllField<T>(T target, XmlElement element, XmlDocument xml) where T : new()
