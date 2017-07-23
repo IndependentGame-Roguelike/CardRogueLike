@@ -13,9 +13,10 @@ namespace Assets.Script.CradManager
         {
             base.Init();
             AllCardQueue = new Queue<CardData>(StaticMemberMgr.MAX_CARD_COUNT);
+            InitData();
         }
 
-        public void InitData()
+        private void InitData()
         {
             //读取卡片信息
             List<XmlData> tempAllCardList = ReadXmlNewMgr.instance.GameXmlDataDic[(int)XmlName.CardData];

@@ -9,9 +9,10 @@ namespace Assets.Script.CradManager
 {
     public class ShowDealCrad : BaseMonoBehaviour
     {
+        public CradInfo[] CurrentShowCradArr;
+        [HideInInspector]
         public int CurrentShowCradCount;
         private bool m_IsStart;
-        private CradInfo[] CurrentShowCradArr;
         private Dictionary<ActorTypeEnum, List<BaseCard>> BaseCardPool;
         private const int MAX_SHOW_CARD_COUNT = 4;
         private const int MIN_show_CARD_COUNT = 1;
@@ -22,7 +23,6 @@ namespace Assets.Script.CradManager
             base.InitData();
             CurrentShowCradCount = 0;
             m_IsStart = false;
-            CurrentShowCradArr = new CradInfo[MAX_SHOW_CARD_COUNT];
             BaseCardPool = new Dictionary<ActorTypeEnum, List<BaseCard>>(10);
         }
 
@@ -32,12 +32,20 @@ namespace Assets.Script.CradManager
             if (CurrentShowCradCount <= MIN_show_CARD_COUNT)
             {
                 AllCardQueue = DealCardMgr.instance.AllCardQueue;
+                if (AllCardQueue.Count <= 0)
+                {
+                    DebugHelper.DebugLogError("AllCardQueue is null");
+                    return;
+                }
                 for (int i = 0; i < MAX_SHOW_CARD_COUNT; i++)
                 {
-                    if (CurrentShowCradArr[i] == null)
+                    if (CurrentShowCradArr[i].CardData == null)
                     {
-                        CurrentShowCradArr[i].CardData = GetBaseCardInfo(AllCardQueue.Dequeue(), i);
-                        CurrentShowCradCount++;
+                        if (AllCardQueue.Count > 0)
+                        {
+                            CurrentShowCradArr[i].CardData = GetBaseCardInfo(AllCardQueue.Dequeue(), i);
+                            CurrentShowCradCount++;
+                        }
                     }
                 }
             }
@@ -68,7 +76,7 @@ namespace Assets.Script.CradManager
             tempBaseCard.PokerType = mCardData.PokerType;
             tempBaseCard.SpritePathName = mCardData.SpritePath;
             tempBaseCard.CacheTrans.parent = CurrentShowCradArr[index].RootTrans;
-            tempBaseCard.Init();
+            tempBaseCard.ReInitData();
             return tempBaseCard;
         }
 
@@ -110,18 +118,44 @@ namespace Assets.Script.CradManager
         private BaseCard CreateBaseCardByActorType(ActorTypeEnum actorType)
         {
             GameObject obj = InstanceCardObj(actorType);
+            BaseCard mBaseCard = null;
             switch (actorType)
             {
                 case ActorTypeEnum.CoinCard:
-                    return obj.AddComponent<CoinCard>();
+                    mBaseCard = obj.GetComponent<CoinCard>();
+                    if (mBaseCard == null)
+                    {
+                        mBaseCard = obj.AddComponent<CoinCard>();
+                    }
+                    return mBaseCard;
                 case ActorTypeEnum.HealCard:
-                    return obj.AddComponent<HealBloodCard>();
+                    mBaseCard = obj.GetComponent<HealBloodCard>();
+                    if (mBaseCard == null)
+                    {
+                        mBaseCard = obj.AddComponent<HealBloodCard>();
+                    }
+                    return mBaseCard;
                 case ActorTypeEnum.MonsterCard:
-                    return obj.AddComponent<MonsterCard>();
+                    mBaseCard = obj.GetComponent<MonsterCard>();
+                    if (mBaseCard == null)
+                    {
+                        mBaseCard = obj.AddComponent<MonsterCard>();
+                    }
+                    return mBaseCard;
                 case ActorTypeEnum.ShieldCard:
-                    return obj.AddComponent<ShieldCard>();
+                    mBaseCard = obj.GetComponent<ShieldCard>();
+                    if (mBaseCard == null)
+                    {
+                        mBaseCard = obj.AddComponent<ShieldCard>();
+                    }
+                    return mBaseCard;
                 case ActorTypeEnum.WeaponCard:
-                    return obj.AddComponent<WeaponCard>();
+                    mBaseCard = obj.GetComponent<WeaponCard>();
+                    if (mBaseCard == null)
+                    {
+                        mBaseCard = obj.AddComponent<WeaponCard>();
+                    }
+                    return mBaseCard;
                 default:
                     return null;
             }
@@ -129,7 +163,7 @@ namespace Assets.Script.CradManager
 
         private GameObject InstanceCardObj(ActorTypeEnum actorType)
         {
-            return DynamicPrefabMgr.instance.GetPrefab<GameObject>(string.Format(StaticMemberMgr.CARD_PREFAB_PATH, actorType), StaticMemberMgr.HideRootTrans);
+            return DynamicPrefabMgr.instance.GetPrefab(string.Format(StaticMemberMgr.CARD_PREFAB_PATH, actorType), StaticMemberMgr.HideRootTrans);
         }
     }
 }

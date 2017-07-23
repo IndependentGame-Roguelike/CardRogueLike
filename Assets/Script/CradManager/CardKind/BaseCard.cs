@@ -71,6 +71,12 @@ namespace Assets.Script.CradManager
         public override void InitData()
         {
             base.InitData();
+            CardValue = new ValueComponent();
+            CardValue.SetMonoCreator(this);
+        }
+
+        public void ReInitData()
+        {
             m_CanMove = false;
             m_IsSelectThisCard = false;
             m_MoveNeedTime = 0;
@@ -78,8 +84,7 @@ namespace Assets.Script.CradManager
             //m_ParentTrans = CacheTrans.parent;
             b_ReleaseFinger = true;
             EquipSpaceType = EquipSpaceTypeEnum.None;
-            CardValue = new ValueComponent();
-            CardValue.SetMonoCreator(this);
+            CardValue.Dispose();
             ObjId = StaticMemberMgr.CurrentObjId++;
             InitSprite();
         }
@@ -98,7 +103,7 @@ namespace Assets.Script.CradManager
         public void InitSprite()
         {
             SetSpriteImg(c_Card_Img_Name, "NPCCard/" + SpritePathName);
-           // SetSpriteImg(c_Card_Num_Name, "CardNum/" + CardValue.HpValue);
+            // SetSpriteImg(c_Card_Num_Name, "CardNum/" + CardValue.HpValue);
         }
 
         public override void RemoveListener()

@@ -15,7 +15,7 @@ namespace Assets.Script.CradManager
             {
                 if (m_HpValue != value)
                 {
-                    EventManager.instance.RasieEvent<BaseCreator>(EventDefine.HpValueChange,ref mMonoCreator);
+                    EventManager.instance.RasieEvent<BaseCreator>(EventDefine.HpValueChange, ref mMonoCreator);
                     m_HpValue = value;
                 }
             }
@@ -46,9 +46,17 @@ namespace Assets.Script.CradManager
             return CheckDeath(HpValue, MinHp);
         }
 
-        public bool CheckDeath(int currentValue,int minHp)
+        public bool CheckDeath(int currentValue, int minHp)
         {
             return currentValue <= minHp;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            m_HpValue = 0;
+            MinHp = 0;
+            lastHpValue = 0;
         }
     }
 }

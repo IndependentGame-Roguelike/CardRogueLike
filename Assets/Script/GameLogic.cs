@@ -6,6 +6,7 @@
 
 using Assets.Script.AudioMgr;
 using Assets.Script.Base;
+using Assets.Script.CradManager;
 using Assets.Script.Tools;
 using UnityEngine;
 
@@ -34,6 +35,7 @@ namespace Assets.Script
             GameHelper.CreateInstance();
             ControlManager.CreateInstance();
             EventManager.CreateInstance();
+            DealCardMgr.CreateInstance();
             base.Init();
         }
 
@@ -80,13 +82,18 @@ namespace Assets.Script
         public override void Update()
         {
             base.Update();
+            float deltaTime = Time.deltaTime;
             if (AudioControl.HasInstance())
             {
                 AudioControl.instance.Update(audioTime);
             }
             if (ControlManager.HasInstance())
             {
-                ControlManager.instance.Update(Time.deltaTime);
+                ControlManager.instance.Update(deltaTime);
+            }
+            if (DealCardMgr.HasInstance())
+            {
+                DealCardMgr.instance.Update(deltaTime);
             }
             //if (mGamestate != null)
             //{
@@ -109,6 +116,7 @@ namespace Assets.Script
             ControlManager.DestroyInstance();
             GameHelper.DestroyInstance();
             EventManager.DestroyInstance();
+            DealCardMgr.DestroyInstance();
             Dispose();
         }
 

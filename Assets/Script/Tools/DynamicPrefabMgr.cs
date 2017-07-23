@@ -10,12 +10,29 @@ using UnityEngine;
 
 namespace Assets.Script
 {
-    public class DynamicPrefabMgr : TSingleton<DynamicPrefabMgr>,IDisposable
+    public class DynamicPrefabMgr : TSingleton<DynamicPrefabMgr>, IDisposable
     {
 
-        public T GetPrefab<T>(string pathStr, Transform trans)
+        public T GetPrefab<T>(string pathStr, Transform trans) where T : class
+        {
+            GameObject go = GetPrefab(pathStr, trans) as GameObject;
+            T fuc = go.transform.GetComponent<T>();
+
+            if (fuc == null)
+            {
+                Debug.LogError("don't find prefab at " + pathStr);
+            }
+            return fuc;
+        }
+
+        public GameObject GetPrefab(string pathStr, Transform trans)
         {
             GameObject goPrefab = Resources.Load(pathStr) as GameObject;
+            if (goPrefab == null)
+            {
+                DebugHelper.DebugLogError("goPrefab path is vaid ===  " + pathStr);
+                return null;
+            }
             Transform transChild = trans.FindChild(goPrefab.name);
             if (transChild == null)
             {
@@ -25,20 +42,14 @@ namespace Assets.Script
                 //transChild.localPosition = Vector3.zero;
                 transChild.name = goPrefab.name;
             }
-            T fuc = transChild.GetComponent<T>();
-
-            if (fuc == null)
-            {
-                Debug.LogError("don't find prefab at " + pathStr);
-            }
-            return fuc;
+            return transChild.gameObject;
         }
 
-        public T GetPrefab<T>(string path) 
+        public T GetPrefab<T>(string path)
         {
             GameObject goPrefab = Resources.Load(path) as GameObject;
             T fuc = goPrefab.GetComponent<T>();
-            
+
             if (fuc == null)
             {
                 DebugHelper.DebugLogErrorFormat("{0} is not find", path);
@@ -46,7 +57,7 @@ namespace Assets.Script
             return fuc;
         }
 
-        public T InstantiatePrefab<T>(GameObject obj, Transform parentTrans, Vector3 initPos) 
+        public T InstantiatePrefab<T>(GameObject obj, Transform parentTrans, Vector3 initPos)
         {
             GameObject go = MonoBehaviour.Instantiate<GameObject>(obj);
             if (go == null) return default(T);

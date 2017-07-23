@@ -11,6 +11,7 @@ namespace Assets.Script.Base
     {
         [HideInInspector]
         public BaseCreator mCreator;
+        [HideInInspector]
         public int ObjId = 0;
         public virtual ActorTypeEnum mActorType
         {
@@ -19,7 +20,7 @@ namespace Assets.Script.Base
                 return 0;
             }
         }
-
+        [HideInInspector]
         public EquipSpaceTypeEnum EquipSpaceType;
 
         public override void OnDestroy()

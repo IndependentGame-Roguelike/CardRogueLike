@@ -7,18 +7,15 @@
     <HpValue>11</HpValue>
     <ActorType>MonsterCard</ActorType>
     <PokerType>Heart</PokerType>
-    <SpritePath>
-    </SpritePath>
+    <SpritePath>1</SpritePath>
   </CardData>
   <CardData ID="1">
-    <CradName>
-    </CradName>
+    <CradName>test1</CradName>
     <IsShow>True</IsShow>
     <ConfigId>1</ConfigId>
-    <HpValue>0</HpValue>
-    <ActorType>MonsterCard</ActorType>
-    <PokerType>Heart</PokerType>
-    <SpritePath>
-    </SpritePath>
+    <HpValue>10</HpValue>
+    <ActorType>WeaponCard</ActorType>
+    <PokerType>Spade</PokerType>
+    <SpritePath>2</SpritePath>
   </CardData>
 </ReNodes>

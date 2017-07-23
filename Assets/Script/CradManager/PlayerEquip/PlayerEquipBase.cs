@@ -20,9 +20,11 @@ namespace Assets.Script.CradManager
             get;
             private set;
         }
-
+        [HideInInspector]
         public BoxCollider2D mCollider;
+        [HideInInspector]
         public bool CanMoveCard;
+        [HideInInspector]
         public bool HaveCard;
 
         public const float c_CardMoveTime = 0.2f;
